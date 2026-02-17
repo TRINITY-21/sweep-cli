@@ -36,7 +36,7 @@ Sweep scans your projects, shows you exactly how much of each project is junk vs
   [Space] select  [a] all  [Enter] delete  [q] quit
 ```
 
-**That `cloud-dashboard` project? 97.7% of its 13.1 GB is just `node_modules` and `.next` cache.** Your actual code is only ~300 MB.
+**That `cloud-dashboard` project? 97.7% of its 13.1 GB is just `node_modules` and `.next` cache.** The actual code is only ~300 MB.
 
 ## Install
 
