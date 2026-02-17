@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sweep-cli"
-version = "0.1.0"
+version = "0.1.1"
 description = "Find and clean dev artifacts across all your projects. node_modules, .venv, target/, build/ — gone."
 readme = "README.md"
 license = {text = "MIT"}
