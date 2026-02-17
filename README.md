@@ -23,11 +23,11 @@ Sweep scans your projects, shows you exactly how much of each project is junk vs
 
   PROJECT                        TYPE         FULL SIZE      ARTIFACTS   % JUNK
   ────────────────────────────────────────────────────────────────────────────────
-  artist_desk_website             Next.js        13.1 GB       12.8 GB    97.7%
-  artistdesk-mobile               Flutter         3.1 GB        3.0 GB    96.8%
-  artist-desk-admin               Node.js         1.7 GB        1.6 GB    94.1%
-  tldr-web                        Next.js       580.0 MB      556.8 MB    96.0%
-  puppeteer-scraping              Node.js       315.0 MB      310.2 MB    98.5%
+  cloud-dashboard                 Next.js        13.1 GB       12.8 GB    97.7%
+  pulse-mobile                    Flutter         3.1 GB        3.0 GB    96.8%
+  nexus-admin                     Node.js         1.7 GB        1.6 GB    94.1%
+  microkit-api                    Next.js       580.0 MB      556.8 MB    96.0%
+  datastream-scraper              Node.js       315.0 MB      310.2 MB    98.5%
   ────────────────────────────────────────────────────────────────────────────────
   TOTAL                                          20.5 GB       19.0 GB    92.7%
 
@@ -36,7 +36,7 @@ Sweep scans your projects, shows you exactly how much of each project is junk vs
   [Space] select  [a] all  [Enter] delete  [q] quit
 ```
 
-**That `artist_desk_website` project? 97.7% of its 13.1 GB is just `node_modules` and `.next` cache.** Your actual code is only ~300 MB.
+**That `cloud-dashboard` project? 97.7% of its 13.1 GB is just `node_modules` and `.next` cache.** Your actual code is only ~300 MB.
 
 ## Install
 
