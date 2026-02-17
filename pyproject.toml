@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sweep-cli"
-version = "0.1.2"
-description = "Find and clean dev artifacts across all your projects. node_modules, .venv, target/, build/ — gone."
+version = "0.1.3"
+description = "Find and clean build artifacts (node_modules, .venv, target, build) across all your projects. Interactive TUI, 10 ecosystems, git-aware safety."
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.8"
