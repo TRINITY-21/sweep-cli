@@ -57,6 +57,7 @@ class Project:
     name: str
     ecosystem: str
     artifacts: List[ArtifactDir] = field(default_factory=list)
+    full_size: int = 0  # total project size in bytes
     last_modified: Optional[datetime] = None
     git_dirty: Optional[bool] = None
 
@@ -69,6 +70,18 @@ class Project:
     def size_human(self) -> str:
         """Human-readable size string."""
         return format_size(self.size)
+
+    @property
+    def full_size_human(self) -> str:
+        """Human-readable full project size."""
+        return format_size(self.full_size)
+
+    @property
+    def junk_pct(self) -> float:
+        """Percentage of project that is artifacts."""
+        if self.full_size == 0:
+            return 0.0
+        return (self.size / self.full_size) * 100
 
     @property
     def age_str(self) -> str:
@@ -276,6 +289,7 @@ def scan(
                         name=os.path.basename(path),
                         ecosystem=eco_name,
                         artifacts=artifacts,
+                        full_size=get_dir_size(path),
                         last_modified=get_last_modified(path),
                         git_dirty=check_git_dirty(path),
                     )

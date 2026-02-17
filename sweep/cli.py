@@ -47,42 +47,43 @@ def print_dry_run(projects: List[Project]) -> None:
         return
 
     total_size = sum(p.size for p in projects)
+    total_full = sum(p.full_size for p in projects)
+    total_pct = (total_size / total_full * 100) if total_full > 0 else 0
 
     # Header
     print(f"\n  SWEEP — {len(projects)} projects | {format_size(total_size)} reclaimable\n")
-    print(f"  {'PROJECT':<35} {'TYPE':<12} {'SIZE':>10} {'MODIFIED':>14} {'STATUS':>8}")
-    print(f"  {'─' * 80}")
+    print(f"  {'PROJECT':<30} {'TYPE':<12} {'FULL SIZE':>12} {'ARTIFACTS':>12} {'% JUNK':>8}")
+    print(f"  {'─' * 76}")
 
     for p in projects:
-        status = ""
-        if p.git_dirty:
-            status = "dirty"
-        elif p.git_dirty is False:
-            status = "clean"
-
         name = p.name
-        if len(name) > 33:
-            name = name[:32] + "…"
+        if len(name) > 28:
+            name = name[:27] + "…"
 
-        print(f"  {name:<35} {p.ecosystem:<12} {p.size_human:>10} {p.age_str:>14} {status:>8}")
+        print(f"  {name:<30} {p.ecosystem:<12} {p.full_size_human:>12} {p.size_human:>12} {p.junk_pct:>7.1f}%")
 
-    print(f"  {'─' * 80}")
-    print(f"  Total: {format_size(total_size)} across {len(projects)} projects\n")
+    print(f"  {'─' * 76}")
+    print(f"  {'TOTAL':<30} {'':12} {format_size(total_full):>12} {format_size(total_size):>12} {total_pct:>7.1f}%")
+    print(f"\n  You can reclaim {format_size(total_size)} out of {format_size(total_full)} ({total_pct:.0f}% is junk)\n")
 
 
 def print_json(projects: List[Project]) -> None:
     """Print scan results as JSON."""
     data = {
         "total_projects": len(projects),
-        "total_size": sum(p.size for p in projects),
-        "total_size_human": format_size(sum(p.size for p in projects)),
+        "total_full_size": sum(p.full_size for p in projects),
+        "total_artifact_size": sum(p.size for p in projects),
+        "total_reclaimable": format_size(sum(p.size for p in projects)),
         "projects": [
             {
                 "path": p.path,
                 "name": p.name,
                 "ecosystem": p.ecosystem,
-                "size": p.size,
-                "size_human": p.size_human,
+                "full_size": p.full_size,
+                "full_size_human": p.full_size_human,
+                "artifact_size": p.size,
+                "artifact_size_human": p.size_human,
+                "junk_pct": round(p.junk_pct, 1),
                 "last_modified": p.last_modified.isoformat() if p.last_modified else None,
                 "git_dirty": p.git_dirty,
                 "artifacts": [

@@ -41,8 +41,10 @@ def _tui_main(stdscr: curses.window, projects: List[Project]) -> int:
 
         # Header
         total_size = sum(p.size for p in projects)
+        total_full = sum(p.full_size for p in projects)
+        total_pct = (total_size / total_full * 100) if total_full > 0 else 0
         selected_size = sum(projects[i].size for i in selected)
-        header = f" SWEEP — {len(projects)} projects | {format_size(total_size)} reclaimable"
+        header = f" SWEEP — {len(projects)} projects | {format_size(total_size)} reclaimable ({total_pct:.0f}% junk)"
         if selected:
             header += f" | {len(selected)} selected ({format_size(selected_size)})"
 
@@ -51,7 +53,7 @@ def _tui_main(stdscr: curses.window, projects: List[Project]) -> int:
         stdscr.attroff(curses.color_pair(4) | curses.A_BOLD)
 
         # Column headers
-        col_header = _format_row("  PROJECT", "TYPE", "SIZE", "LAST MODIFIED", "STATUS", width)
+        col_header = _format_row("  PROJECT", "TYPE", "FULL SIZE", "ARTIFACTS", "% JUNK", width)
         stdscr.attron(curses.A_DIM)
         stdscr.addnstr(1, 0, col_header, width - 1)
         stdscr.addnstr(2, 0, "─" * (width - 1), width - 1)
@@ -83,20 +85,15 @@ def _tui_main(stdscr: curses.window, projects: List[Project]) -> int:
             # Checkbox
             check = "[x]" if is_selected else "[ ]"
 
-            # Status
-            if project.git_dirty:
-                status = "dirty"
-            elif project.git_dirty is False:
-                status = "clean"
-            else:
-                status = ""
+            # Junk percentage
+            junk_str = f"{project.junk_pct:.0f}%"
 
             row = _format_row(
                 f" {check} {_truncate(project.name, 30)}",
                 project.ecosystem,
+                project.full_size_human,
                 project.size_human,
-                project.age_str,
-                status,
+                junk_str,
                 width,
             )
 
